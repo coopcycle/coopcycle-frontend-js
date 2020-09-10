@@ -1,5 +1,5 @@
-import { selectTasksWithColor } from './src/redux/Dispatch/selectors'
+import { mapToColor } from './src/redux/taskUtils'
 
 export {
-    selectTasksWithColor
+  mapToColor
 }

@@ -1,6 +1,6 @@
 import {
   groupLinkedTasks,
-} from '../utils.js'
+} from '../taskUtils.js'
 
 describe('groupLinkedTasks', () => {
 

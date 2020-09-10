@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _, {mapValues} from 'lodash'
 
 const COLORS_LIST = [
   '#213ab2',
@@ -20,7 +20,7 @@ const COLORS_LIST = [
   '#c6733f'
 ]
 
-export const integerToColor = value => COLORS_LIST[(value % COLORS_LIST.length)]
+const integerToColor = value => COLORS_LIST[(value % COLORS_LIST.length)]
 
 export function groupLinkedTasks(tasks) {
   const tasksWithPreviousOrNext = _.filter(tasks, t => t.previous || t.next)
@@ -53,4 +53,8 @@ export function groupLinkedTasks(tasks) {
   }
 
   return groups
+}
+
+export function mapToColor(tasks) {
+  return mapValues(groupLinkedTasks(tasks), taskIds => integerToColor(taskIds.reduce((accumulator, value) => accumulator + value)))
 }
