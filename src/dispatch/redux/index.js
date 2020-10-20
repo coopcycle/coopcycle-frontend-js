@@ -8,6 +8,8 @@ export {
   selectTasksWithColor
 } from './selectors'
 
+export * from './actions'
+
 import { mapToColor } from './taskUtils'
 
 export const taskUtils = {
