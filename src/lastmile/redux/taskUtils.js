@@ -1,4 +1,5 @@
 import _, {mapValues} from 'lodash'
+import { copyMap } from "./objectUtils";
 
 const COLORS_LIST = [
   '#213ab2',
@@ -57,4 +58,13 @@ function groupLinkedTasks(tasks) {
 
 export function mapToColor(tasks) {
   return mapValues(groupLinkedTasks(tasks), taskIds => integerToColor(taskIds.reduce((accumulator, value) => accumulator + value)))
+}
+
+export function upsertTasks(items, tasks) {
+  let newItems = copyMap(items)
+
+  for (let task of tasks) {
+    newItems.set(task["@id"], task)
+  }
+  return newItems
 }
