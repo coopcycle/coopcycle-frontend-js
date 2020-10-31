@@ -34,6 +34,8 @@ describe('replaceTasksWithIds', () => {
   it('should remove items and add itemIds in a task list', () => {
 
     let taskList = {
+      '@id': '/api/task_lists/1',
+      username: 'bot_1',
       items: [
         {
           '@id': '/api/tasks/1',
