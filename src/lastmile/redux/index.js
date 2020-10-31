@@ -16,24 +16,23 @@ export * from './actions'
 
 import { mapToColor, upsertTasks } from './taskUtils'
 import {
+  taskListKey,
   tasksToIds,
   replaceTasksWithIds,
-  findTaskList,
+  findTaskListEntity,
   addAssignedTask,
   removeUnassignedTask,
 } from './taskListUtils'
-import { copyMap } from "./objectUtils";
 
 export const taskUtils = {
   mapToColor, upsertTasks
 }
 
 export const taskListUtils = {
-  tasksToIds, replaceTasksWithIds,
-  findTaskList,
-  addAssignedTask, removeUnassignedTask,
-}
-
-export const objectUtils = {
-  copyMap
+  taskListKey,
+  tasksToIds,
+  replaceTasksWithIds,
+  findTaskListEntity,
+  addAssignedTask,
+  removeUnassignedTask,
 }

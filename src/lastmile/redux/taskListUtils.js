@@ -1,20 +1,21 @@
 import _ from "lodash";
 import moment from "moment";
-import { copyMap } from "./objectUtils"
+
+export const taskListKey = 'username'
 
 export function tasksToIds(tasks) {
   return tasks.map((item) => item["@id"])
 }
 
 export function replaceTasksWithIds(taskList) {
-  let newTaskList = {
+  let entity = {
     ...taskList
   }
 
-  newTaskList.itemIds = tasksToIds(newTaskList.items)
-  delete newTaskList.items
+  entity.itemIds = tasksToIds(taskList.items)
+  delete entity.items
 
-  return newTaskList
+  return entity
 }
 
 function addTaskIdIfMissing(taskIds, taskId) {
@@ -32,7 +33,7 @@ function removeTaskId(taskIds, taskId) {
   return _.filter(taskIds, t => t !== taskId)
 }
 
-export function findTaskList(taskLists, task) {
+export function findTaskListEntity(taskLists, task) {
   return _.find(taskLists, taskList => {
     return _.includes(taskList.itemIds, task['@id'])
   })
@@ -56,21 +57,21 @@ function createTaskList(username, items = []) {
 
 export function addAssignedTask(state, task) {
   let taskLists = Array.from(state.items.values())
-  let newItems = copyMap(state.items)
+  let newItems = new Map(state.items)
 
-  let taskList = findTaskList(taskLists, task)
+  let taskList = findTaskListEntity(taskLists, task)
 
   let targetTaskList = _.find(taskLists, taskList => taskList.username === task.assignedTo)
 
   if (taskList != null) {
-    if (targetTaskList['@id'] !== taskList['@id']) {
+    if (targetTaskList.username !== taskList.username) {
       //unassign
       let newTaskList = {
         ...taskList,
         itemIds: removeTaskId(taskList.itemIds, task['@id'])
       }
 
-      newItems.set(taskList['@id'], newTaskList)
+      newItems.set(taskList[taskListKey], newTaskList)
     }
   }
 
@@ -81,13 +82,13 @@ export function addAssignedTask(state, task) {
       itemIds: addTaskIdIfMissing(targetTaskList.itemIds, task['@id'])
     }
 
-    newItems.set(targetTaskList['@id'], newTaskList)
+    newItems.set(targetTaskList[taskListKey], newTaskList)
 
   } else {
     let newTaskList = createTaskList(task.assignedTo, [task])
     newTaskList = replaceTasksWithIds(newTaskList)
 
-    newItems.set(newTaskList['@id'], newTaskList)
+    newItems.set(newTaskList[taskListKey], newTaskList)
   }
 
   return newItems
@@ -95,9 +96,9 @@ export function addAssignedTask(state, task) {
 
 export function removeUnassignedTask(state, task) {
   let taskLists = Array.from(state.items.values())
-  let newItems = copyMap(state.items)
+  let newItems = new Map(state.items)
 
-  let taskList = findTaskList(taskLists, task)
+  let taskList = findTaskListEntity(taskLists, task)
 
   if (taskList != null) {
     //unassign
@@ -106,7 +107,7 @@ export function removeUnassignedTask(state, task) {
       itemIds: removeTaskId(taskList.itemIds, task['@id'])
     }
 
-    newItems.set(taskList['@id'], newTaskList)
+    newItems.set(taskList[taskListKey], newTaskList)
   }
 
   return newItems

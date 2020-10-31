@@ -30,12 +30,12 @@ export const selectTaskLists = createSelector(
 
 export const selectAllTasks = createSelector(
   state => state.lastmile.entities.tasks.items,
-  (map) => toArray(map)
+  map => toArray(map)
 )
 
 export const selectAssignedTasks = createSelector(
   selectTaskLists,
-  (taskLists) => taskLists.flatMap(taskList => taskList.items)
+  taskLists => _.flatMap(taskLists,taskList => taskList.items)
 )
 
 export const selectUnassignedTasks = createSelector(

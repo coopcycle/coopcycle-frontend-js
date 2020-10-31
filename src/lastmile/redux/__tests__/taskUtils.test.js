@@ -1,5 +1,5 @@
 import {
-  groupLinkedTasks,
+  groupLinkedTasks, upsertTasks,
 } from '../taskUtils.js'
 
 describe('groupLinkedTasks', () => {
@@ -117,4 +117,89 @@ describe('groupLinkedTasks', () => {
     })
   })
 
+})
+
+describe('upsertTasks', () => {
+  it('should update an existing task', () => {
+
+    let items = new Map()
+    items.set('/api/tasks/1', {
+      '@id': '/api/tasks/1',
+      id : 1,
+      next: '/api/tasks/2',
+    })
+    items.set('/api/tasks/2', {
+      '@id': '/api/tasks/2',
+      id : 2,
+      previous: '/api/tasks/1',
+    })
+
+    let task = {
+      '@id': '/api/tasks/2',
+      id : 2,
+      previous: '/api/tasks/1',
+      next: '/api/tasks/4',
+    }
+
+    let expectedResult = new Map()
+    expectedResult.set('/api/tasks/1', {
+      '@id': '/api/tasks/1',
+      id : 1,
+      next: '/api/tasks/2',
+    })
+    expectedResult.set('/api/tasks/2', {
+      '@id': '/api/tasks/2',
+      id : 2,
+      previous: '/api/tasks/1',
+      next: '/api/tasks/4',
+    })
+
+    let result = upsertTasks(items, [task])
+
+    expect(result).toEqual(expectedResult)
+    expect(result).not.toBe(items)
+  })
+
+  it('should insert a new task', () => {
+
+    let items = new Map()
+    items.set('/api/tasks/1', {
+      '@id': '/api/tasks/1',
+      id : 1,
+      next: '/api/tasks/2',
+    })
+    items.set('/api/tasks/2', {
+      '@id': '/api/tasks/2',
+      id : 2,
+      next: '/api/tasks/3',
+    })
+
+    let task = {
+      '@id': '/api/tasks/3',
+      id : 3,
+      next: '/api/tasks/4',
+    }
+
+    let expectedResult = new Map()
+    expectedResult.set('/api/tasks/1', {
+      '@id': '/api/tasks/1',
+      id : 1,
+      next: '/api/tasks/2',
+    })
+    expectedResult.set('/api/tasks/2', {
+      '@id': '/api/tasks/2',
+      id : 2,
+      next: '/api/tasks/3',
+    })
+    expectedResult.set('/api/tasks/3', {
+      '@id': '/api/tasks/3',
+      id : 3,
+      next: '/api/tasks/4',
+    })
+
+    let result = upsertTasks(items, [task])
+
+    expect(result).toEqual(expectedResult)
+    expect(result).not.toBe(items)
+  })
 })
