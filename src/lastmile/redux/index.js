@@ -22,6 +22,7 @@ import {
   findTaskListEntity,
   addAssignedTask,
   removeUnassignedTask,
+  upsertTaskList,
 } from './taskListUtils'
 
 export const taskUtils = {
@@ -35,4 +36,5 @@ export const taskListUtils = {
   findTaskListEntity,
   addAssignedTask,
   removeUnassignedTask,
+  upsertTaskList,
 }

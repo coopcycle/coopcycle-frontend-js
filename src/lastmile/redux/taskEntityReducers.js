@@ -4,18 +4,18 @@ import {
 import { upsertTasks } from "./taskUtils"
 
 const initialState = {
-  items: new Map()
+  byId: {}
 }
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case CREATE_TASK_LIST_SUCCESS: {
       let taskList = action.payload
-      let newItems = upsertTasks(state.items, taskList.items)
+      let newItems = upsertTasks(state.byId, taskList.items)
 
       return {
         ...state,
-        items: newItems,
+        byId: newItems,
       }
     }
     default:

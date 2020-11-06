@@ -4,21 +4,9 @@ describe('taskEntityReducers', () => {
 
   describe('CREATE_TASK_LIST_SUCCESS', () => {
     it('should add tasks', () => {
-      let expectedItems = new Map()
-      expectedItems.set('/api/tasks/1', {
-        '@id': '/api/tasks/1',
-        id : 1,
-        next: '/api/tasks/2',
-      })
-      expectedItems.set('/api/tasks/2', {
-        '@id': '/api/tasks/2',
-        id : 2,
-        previous: '/api/tasks/1',
-      })
-
       expect(taskEntityReducers(
           {
-            items: new Map()
+            byId: {}
           },
           {
             type: 'CREATE_TASK_LIST_SUCCESS',
@@ -39,36 +27,34 @@ describe('taskEntityReducers', () => {
             }
           }
       )).toEqual({
-        items: expectedItems,
+        byId: {
+          '/api/tasks/1': {
+            '@id': '/api/tasks/1',
+            id : 1,
+            next: '/api/tasks/2',
+          },
+          '/api/tasks/2': {
+            '@id': '/api/tasks/2',
+            id : 2,
+            previous: '/api/tasks/1',
+          }
+        },
       })
     })
 
     it('should update tasks', () => {
-      let initialItems = new Map()
-      initialItems.set('/api/tasks/1', {
-        '@id': '/api/tasks/1',
-        id : 1,
-      })
-      initialItems.set('/api/tasks/2', {
-        '@id': '/api/tasks/2',
-        id : 2,
-      })
-
-      let expectedItems = new Map()
-      expectedItems.set('/api/tasks/1', {
-        '@id': '/api/tasks/1',
-        id : 1,
-        next: '/api/tasks/2',
-      })
-      expectedItems.set('/api/tasks/2', {
-        '@id': '/api/tasks/2',
-        id : 2,
-        previous: '/api/tasks/1',
-      })
-
       expect(taskEntityReducers(
           {
-            items: initialItems
+            byId: {
+              '/api/tasks/1': {
+                '@id': '/api/tasks/1',
+                id : 1,
+              },
+              '/api/tasks/2': {
+                '@id': '/api/tasks/2',
+                id : 2,
+              },
+            }
           },
           {
             type: 'CREATE_TASK_LIST_SUCCESS',
@@ -89,7 +75,18 @@ describe('taskEntityReducers', () => {
             }
           }
       )).toEqual({
-        items: expectedItems,
+        byId: {
+          '/api/tasks/1': {
+            '@id': '/api/tasks/1',
+            id : 1,
+            next: '/api/tasks/2',
+          },
+          '/api/tasks/2': {
+            '@id': '/api/tasks/2',
+            id : 2,
+            previous: '/api/tasks/1',
+          },
+        },
       })
     })
   })

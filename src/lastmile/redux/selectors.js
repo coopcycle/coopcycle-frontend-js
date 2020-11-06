@@ -4,20 +4,16 @@ import {mapToColor} from "./taskUtils";
 
 export const selectSelectedDate = state => state.lastmile.date
 
-function toArray(map) {
-  return Array.from(map.values())
-}
-
 export const selectTaskLists = createSelector(
-  state => state.lastmile.entities.taskLists.items,
-  state => state.lastmile.entities.tasks.items,
-  (taskLists, tasks) =>
-    toArray(taskLists).map(taskList => {
+  state => state.lastmile.entities.taskLists.byUsername,
+  state => state.lastmile.entities.tasks.byId,
+  (taskListsByUsername, tasksById) =>
+    Object.values(taskListsByUsername).map(taskList => {
       let newTaskList = {...taskList}
       delete newTaskList.itemIds
 
       newTaskList.items = taskList.itemIds.map(taskId => {
-        let task = tasks.get(taskId)
+        let task = tasksById[taskId]
 
         console.assert(task != null, `task is null: taskId: ${taskId}`)
 
@@ -29,8 +25,8 @@ export const selectTaskLists = createSelector(
 )
 
 export const selectAllTasks = createSelector(
-  state => state.lastmile.entities.tasks.items,
-  map => toArray(map)
+  state => state.lastmile.entities.tasks.byId,
+  tasksById => Object.values(tasksById)
 )
 
 export const selectAssignedTasks = createSelector(

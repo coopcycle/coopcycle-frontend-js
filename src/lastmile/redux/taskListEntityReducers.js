@@ -1,10 +1,10 @@
 import {
   CREATE_TASK_LIST_SUCCESS
 } from "./actions";
-import { taskListKey, replaceTasksWithIds } from "./taskListUtils"
+import { replaceTasksWithIds, upsertTaskList } from "./taskListUtils"
 
 const initialState = {
-  items: new Map()
+  byUsername: {}
 }
 
 export default (state = initialState, action) => {
@@ -12,12 +12,11 @@ export default (state = initialState, action) => {
     case CREATE_TASK_LIST_SUCCESS: {
       let entity = replaceTasksWithIds(action.payload)
 
-      let newItems = new Map(state.items)
-      newItems.set(entity[taskListKey], entity)
+      let newItems = upsertTaskList(state.byUsername, entity)
 
       return {
         ...state,
-        items: newItems,
+        byUsername: newItems,
       }
     }
     default:

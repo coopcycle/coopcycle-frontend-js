@@ -50,6 +50,8 @@ describe('replaceTasksWithIds', () => {
     let result =  replaceTasksWithIds(taskList)
 
     expect(result).toEqual({
+      '@id': '/api/task_lists/1',
+      username: 'bot_1',
       itemIds: [
         '/api/tasks/1',
         '/api/tasks/2',
@@ -121,24 +123,25 @@ describe('addAssignedTask', () => {
 
   it('should add assigned task into existing task list', () => {
     let state = {
-      items: new Map()
+      byUsername: {
+        'bot_1': {
+          '@id': '/api/task_lists/1',
+          'username': 'bot_1',
+          itemIds: [
+            '/api/tasks/1',
+            '/api/tasks/2',
+          ]
+        },
+        'bot_2': {
+          '@id': '/api/task_lists/2',
+          'username': 'bot_2',
+          itemIds: [
+            '/api/tasks/3',
+            '/api/tasks/4',
+          ]
+        }
+      }
     }
-    state.items.set('bot_1', {
-      '@id': '/api/task_lists/1',
-      'username': 'bot_1',
-      itemIds: [
-        '/api/tasks/1',
-        '/api/tasks/2',
-      ]
-    })
-    state.items.set('bot_2', {
-      '@id': '/api/task_lists/2',
-      'username': 'bot_2',
-      itemIds: [
-        '/api/tasks/3',
-        '/api/tasks/4',
-      ]
-    })
 
     let task = {
       '@id': '/api/tasks/5',
@@ -149,24 +152,25 @@ describe('addAssignedTask', () => {
 
     let result = addAssignedTask(state, task)
 
-    let expectedItems = new Map()
-    expectedItems.set('bot_1', {
-      '@id': '/api/task_lists/1',
-      'username': 'bot_1',
-      itemIds: [
-        '/api/tasks/1',
-        '/api/tasks/2',
-        '/api/tasks/5',
-      ]
-    })
-    expectedItems.set('bot_2', {
-      '@id': '/api/task_lists/2',
-      'username': 'bot_2',
-      itemIds: [
-        '/api/tasks/3',
-        '/api/tasks/4',
-      ]
-    })
+    let expectedItems = {
+      'bot_1': {
+        '@id': '/api/task_lists/1',
+        'username': 'bot_1',
+        itemIds: [
+          '/api/tasks/1',
+          '/api/tasks/2',
+          '/api/tasks/5',
+        ]
+      },
+      'bot_2': {
+        '@id': '/api/task_lists/2',
+        'username': 'bot_2',
+        itemIds: [
+          '/api/tasks/3',
+          '/api/tasks/4',
+        ]
+      }
+    }
 
     expect(result).toEqual(expectedItems)
     expect(result).not.toBe(state.items)
@@ -174,16 +178,17 @@ describe('addAssignedTask', () => {
 
   it('should create a new task list when it does not exist', () => {
     let state = {
-      items: new Map()
+      byUsername: {
+        'bot_1': {
+          '@id': '/api/task_lists/1',
+          'username': 'bot_1',
+          itemIds: [
+            '/api/tasks/1',
+            '/api/tasks/2',
+          ]
+        },
+      }
     }
-    state.items.set('bot_1', {
-      '@id': '/api/task_lists/1',
-      'username': 'bot_1',
-      itemIds: [
-        '/api/tasks/1',
-        '/api/tasks/2',
-      ]
-    })
 
     let task = {
       '@id': '/api/tasks/3',
@@ -194,11 +199,11 @@ describe('addAssignedTask', () => {
 
     let result = addAssignedTask(state, task)
 
-    expect(result.get('bot_1').itemIds).toEqual([
+    expect(result['bot_1'].itemIds).toEqual([
       '/api/tasks/1',
       '/api/tasks/2',
     ])
-    expect(result.get('bot_2').itemIds).toEqual([
+    expect(result['bot_2'].itemIds).toEqual([
       '/api/tasks/3',
     ])
     expect(result).not.toBe(state.items)
@@ -206,24 +211,25 @@ describe('addAssignedTask', () => {
 
   it('should unassign task if it was assigned to another courier', () => {
     let state = {
-      items: new Map()
+      byUsername: {
+        'bot_1': {
+          '@id': '/api/task_lists/1',
+          'username': 'bot_1',
+          itemIds: [
+            '/api/tasks/1',
+            '/api/tasks/2',
+          ]
+        },
+        'bot_2': {
+          '@id': '/api/task_lists/2',
+          'username': 'bot_2',
+          itemIds: [
+            '/api/tasks/3',
+            '/api/tasks/4',
+          ]
+        }
+      }
     }
-    state.items.set('bot_1', {
-      '@id': '/api/task_lists/1',
-      'username': 'bot_1',
-      itemIds: [
-        '/api/tasks/1',
-        '/api/tasks/2',
-      ]
-    })
-    state.items.set('bot_2', {
-      '@id': '/api/task_lists/2',
-      'username': 'bot_2',
-      itemIds: [
-        '/api/tasks/3',
-        '/api/tasks/4',
-      ]
-    })
 
     let task = {
       '@id': '/api/tasks/3',
@@ -234,23 +240,24 @@ describe('addAssignedTask', () => {
 
     let result = addAssignedTask(state, task)
 
-    let expectedItems = new Map()
-    expectedItems.set('bot_1', {
-      '@id': '/api/task_lists/1',
-      'username': 'bot_1',
-      itemIds: [
-        '/api/tasks/1',
-        '/api/tasks/2',
-        '/api/tasks/3',
-      ]
-    })
-    expectedItems.set('bot_2', {
-      '@id': '/api/task_lists/2',
-      'username': 'bot_2',
-      itemIds: [
-        '/api/tasks/4',
-      ]
-    })
+    let expectedItems = {
+      'bot_1': {
+        '@id': '/api/task_lists/1',
+        'username': 'bot_1',
+        itemIds: [
+          '/api/tasks/1',
+          '/api/tasks/2',
+          '/api/tasks/3',
+        ]
+      },
+      'bot_2': {
+        '@id': '/api/task_lists/2',
+        'username': 'bot_2',
+        itemIds: [
+          '/api/tasks/4',
+        ]
+      }
+    }
 
     expect(result).toEqual(expectedItems)
     expect(result).not.toBe(state.items)
@@ -258,24 +265,25 @@ describe('addAssignedTask', () => {
 
   it('should not modify a task list if the task is already there', () => {
     let state = {
-      items: new Map()
+      byUsername: {
+        'bot_1': {
+          '@id': '/api/task_lists/1',
+          'username': 'bot_1',
+          itemIds: [
+            '/api/tasks/1',
+            '/api/tasks/2',
+          ]
+        },
+        'bot_2': {
+          '@id': '/api/task_lists/2',
+          'username': 'bot_2',
+          itemIds: [
+            '/api/tasks/3',
+            '/api/tasks/4',
+          ]
+        }
+      }
     }
-    state.items.set('bot_1', {
-      '@id': '/api/task_lists/1',
-      'username': 'bot_1',
-      itemIds: [
-        '/api/tasks/1',
-        '/api/tasks/2',
-      ]
-    })
-    state.items.set('bot_2', {
-      '@id': '/api/task_lists/2',
-      'username': 'bot_2',
-      itemIds: [
-        '/api/tasks/3',
-        '/api/tasks/4',
-      ]
-    })
 
     let task = {
       '@id': '/api/tasks/1',
@@ -286,50 +294,52 @@ describe('addAssignedTask', () => {
 
     let result = addAssignedTask(state, task)
 
-    let expectedItems = new Map()
-    expectedItems.set('bot_1', {
-      '@id': '/api/task_lists/1',
-      'username': 'bot_1',
-      itemIds: [
-        '/api/tasks/1',
-        '/api/tasks/2',
-      ]
-    })
-    expectedItems.set('bot_2', {
-      '@id': '/api/task_lists/2',
-      'username': 'bot_2',
-      itemIds: [
-        '/api/tasks/3',
-        '/api/tasks/4',
-      ]
-    })
+    let expectedItems = {
+      'bot_1': {
+        '@id': '/api/task_lists/1',
+        'username': 'bot_1',
+        itemIds: [
+          '/api/tasks/1',
+          '/api/tasks/2',
+        ]
+      },
+      'bot_2': {
+        '@id': '/api/task_lists/2',
+        'username': 'bot_2',
+        itemIds: [
+          '/api/tasks/3',
+          '/api/tasks/4',
+        ]
+      }
+    }
 
     expect(result).toEqual(expectedItems)
-    expect(result.get('bot_1').itemIds).toBe(state.items.get('bot_1').itemIds)
+    expect(result['bot_1'].itemIds).toBe(state.byUsername['bot_1'].itemIds)
   })
 })
 
 describe('removeUnassignedTask', () => {
   it('should remove unassigned task', () => {
     let state = {
-      items: new Map()
+      byUsername: {
+        'bot_1': {
+          '@id': '/api/task_lists/1',
+          'username': 'bot_1',
+          itemIds: [
+            '/api/tasks/1',
+            '/api/tasks/2',
+          ]
+        },
+        'bot_2': {
+          '@id': '/api/task_lists/2',
+          'username': 'bot_2',
+          itemIds: [
+            '/api/tasks/3',
+            '/api/tasks/4',
+          ]
+        }
+      }
     }
-    state.items.set('bot_1', {
-      '@id': '/api/task_lists/1',
-      'username': 'bot_1',
-      itemIds: [
-        '/api/tasks/1',
-        '/api/tasks/2',
-      ]
-    })
-    state.items.set('bot_2', {
-      '@id': '/api/task_lists/2',
-      'username': 'bot_2',
-      itemIds: [
-        '/api/tasks/3',
-        '/api/tasks/4',
-      ]
-    })
 
     let task = {
       '@id': '/api/tasks/1',
@@ -340,22 +350,23 @@ describe('removeUnassignedTask', () => {
 
     let result = removeUnassignedTask(state, task)
 
-    let expectedItems = new Map()
-    expectedItems.set('bot_1', {
-      '@id': '/api/task_lists/1',
-      'username': 'bot_1',
-      itemIds: [
-        '/api/tasks/2',
-      ]
-    })
-    expectedItems.set('bot_2', {
-      '@id': '/api/task_lists/2',
-      'username': 'bot_2',
-      itemIds: [
-        '/api/tasks/3',
-        '/api/tasks/4',
-      ]
-    })
+    let expectedItems = {
+      'bot_1': {
+        '@id': '/api/task_lists/1',
+        'username': 'bot_1',
+        itemIds: [
+          '/api/tasks/2',
+        ]
+      },
+      'bot_2': {
+        '@id': '/api/task_lists/2',
+        'username': 'bot_2',
+        itemIds: [
+          '/api/tasks/3',
+          '/api/tasks/4',
+        ]
+      }
+    }
 
     expect(result).toEqual(expectedItems)
     expect(result).not.toBe(state.items)

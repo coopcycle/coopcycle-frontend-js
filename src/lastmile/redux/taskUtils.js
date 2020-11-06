@@ -59,11 +59,12 @@ export function mapToColor(tasks) {
   return mapValues(groupLinkedTasks(tasks), taskIds => integerToColor(taskIds.reduce((accumulator, value) => accumulator + value)))
 }
 
-export function upsertTasks(items, tasks) {
-  let newItems = new Map(items)
+export function upsertTasks(tasksById, tasks) {
+  let newItems = Object.assign({}, tasksById)
 
   for (let task of tasks) {
-    newItems.set(task["@id"], task)
+    newItems[task["@id"]] = task
   }
+
   return newItems
 }

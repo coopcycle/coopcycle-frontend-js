@@ -11,53 +11,52 @@ import moment from "../../../moment";
 
 describe('Selectors', () => {
   let date = moment().format('YYYY-MM-DD')
-  let taskEntities = new Map()
-  taskEntities.set('/api/tasks/1', {
-    '@id': '/api/tasks/1',
-    id : 1,
-    next: '/api/tasks/2',
-  })
-  taskEntities.set('/api/tasks/2', {
-    '@id': '/api/tasks/2',
-    id : 2,
-    previous: '/api/tasks/1',
-  })
-  taskEntities.set('/api/tasks/3', {
-    '@id': '/api/tasks/3',
-    id : 3,
-  })
-  taskEntities.set('/api/tasks/4', {
-    '@id': '/api/tasks/4',
-    id : 4,
-  })
-
-  let taskListEntities = new Map()
-  taskListEntities.set('bot_1', {
-    '@id': '/api/task_lists/1',
-    'username': 'bot_1',
-    itemIds: [
-      '/api/tasks/1',
-      '/api/tasks/2',
-    ]
-  })
-  taskListEntities.set('bot_2', {
-    '@id': '/api/task_lists/2',
-    'username': 'bot_2',
-    itemIds: [
-      '/api/tasks/3',
-    ]
-  })
 
   let baseState = {
     lastmile: {
       date,
       entities: {
         tasks: {
-          items: taskEntities
+          byId: {
+            '/api/tasks/1': {
+              '@id': '/api/tasks/1',
+              id : 1,
+              next: '/api/tasks/2',
+            },
+            '/api/tasks/2': {
+              '@id': '/api/tasks/2',
+              id : 2,
+              previous: '/api/tasks/1',
+            },
+            '/api/tasks/3': {
+              '@id': '/api/tasks/3',
+              id : 3,
+            },
+            '/api/tasks/4': {
+              '@id': '/api/tasks/4',
+              id : 4,
+            },
+          },
         },
         taskLists: {
-          items: taskListEntities
-        }
+          byUsername: {
+            'bot_1': {
+              '@id': '/api/task_lists/1',
+              'username': 'bot_1',
+              itemIds: [
+                '/api/tasks/1',
+                '/api/tasks/2',
+              ]
+            },
+            'bot_2': {
+              '@id': '/api/task_lists/2',
+              'username': 'bot_2',
+              itemIds: [
+                '/api/tasks/3',
+              ]
+            },
+          },
+        },
       },
       ui: {
         taskListsLoading: false,

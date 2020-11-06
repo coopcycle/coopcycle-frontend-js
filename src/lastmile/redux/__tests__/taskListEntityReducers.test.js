@@ -4,19 +4,9 @@ describe('taskListEntityReducers', () => {
 
   describe('CREATE_TASK_LIST_SUCCESS', () => {
     it('should add a task list', () => {
-      let expectedItems = new Map()
-      expectedItems.set('bot_1', {
-        '@id': '/api/task_lists/1',
-        'username': 'bot_1',
-        itemIds: [
-          '/api/tasks/1',
-          '/api/tasks/2',
-        ]
-      })
-
       expect(taskListEntityReducers(
           {
-            items: new Map()
+            byUsername: {},
           },
           {
             type: 'CREATE_TASK_LIST_SUCCESS',
@@ -37,7 +27,16 @@ describe('taskListEntityReducers', () => {
             }
           }
       )).toEqual({
-        items: expectedItems,
+        byUsername: {
+          'bot_1': {
+            '@id': '/api/task_lists/1',
+            'username': 'bot_1',
+            itemIds: [
+              '/api/tasks/1',
+              '/api/tasks/2',
+            ]
+          },
+        },
       })
     })
   })

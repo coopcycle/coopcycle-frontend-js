@@ -56,8 +56,8 @@ function createTaskList(username, items = []) {
 }
 
 export function addAssignedTask(state, task) {
-  let taskLists = Array.from(state.items.values())
-  let newItems = new Map(state.items)
+  let taskLists = Object.values(state.byUsername)
+  let newItems = Object.assign({}, state.byUsername)
 
   let taskList = findTaskListEntity(taskLists, task)
 
@@ -66,49 +66,49 @@ export function addAssignedTask(state, task) {
   if (taskList != null) {
     if (targetTaskList.username !== taskList.username) {
       //unassign
-      let newTaskList = {
+      newItems[taskList[taskListKey]] = {
         ...taskList,
         itemIds: removeTaskId(taskList.itemIds, task['@id'])
       }
-
-      newItems.set(taskList[taskListKey], newTaskList)
     }
   }
 
   //assign
   if (targetTaskList != null) {
-    let newTaskList = {
+    newItems[targetTaskList[taskListKey]] = {
       ...targetTaskList,
       itemIds: addTaskIdIfMissing(targetTaskList.itemIds, task['@id'])
     }
-
-    newItems.set(targetTaskList[taskListKey], newTaskList)
 
   } else {
     let newTaskList = createTaskList(task.assignedTo, [task])
     newTaskList = replaceTasksWithIds(newTaskList)
 
-    newItems.set(newTaskList[taskListKey], newTaskList)
+    newItems[newTaskList[taskListKey]] = newTaskList
   }
 
   return newItems
 }
 
 export function removeUnassignedTask(state, task) {
-  let taskLists = Array.from(state.items.values())
-  let newItems = new Map(state.items)
+  let taskLists = Object.values(state.byUsername)
+  let newItems = Object.assign({}, state.byUsername)
 
   let taskList = findTaskListEntity(taskLists, task)
 
   if (taskList != null) {
     //unassign
-    let newTaskList = {
+    newItems[taskList[taskListKey]] = {
       ...taskList,
       itemIds: removeTaskId(taskList.itemIds, task['@id'])
     }
-
-    newItems.set(taskList[taskListKey], newTaskList)
   }
 
+  return newItems
+}
+
+export function upsertTaskList(taskListsByKey, taskList) {
+  let newItems = Object.assign({}, taskListsByKey)
+  newItems[taskList[taskListKey]] = taskList
   return newItems
 }
