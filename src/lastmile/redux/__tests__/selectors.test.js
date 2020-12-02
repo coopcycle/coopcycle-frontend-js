@@ -101,6 +101,53 @@ describe('Selectors', () => {
         }
       ])
     })
+
+    it('should return task lists without some tasks if they are not loaded', () => {
+      let baseState = {
+        lastmile: {
+          date,
+          entities: {
+            tasks: {
+              byId: {
+                '/api/tasks/1': {
+                  '@id': '/api/tasks/1',
+                  id : 1,
+                },
+              },
+            },
+            taskLists: {
+              byUsername: {
+                'bot_1': {
+                  '@id': '/api/task_lists/1',
+                  'username': 'bot_1',
+                  itemIds: [
+                    '/api/tasks/1',
+                    '/api/tasks/2',
+                  ]
+                },
+              },
+            },
+          },
+          ui: {
+            taskListsLoading: false,
+          }
+        }
+      }
+
+      expect(selectTaskLists(baseState)).toEqual([
+        {
+          '@id': '/api/task_lists/1',
+          'username': 'bot_1',
+          items: [
+            {
+              '@id': '/api/tasks/1',
+              id : 1,
+            },
+          ],
+        },
+      ])
+    })
+
   })
 
   describe('selectAllTasks', () => {

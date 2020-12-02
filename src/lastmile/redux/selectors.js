@@ -12,13 +12,9 @@ export const selectTaskLists = createSelector(
       let newTaskList = {...taskList}
       delete newTaskList.itemIds
 
-      newTaskList.items = taskList.itemIds.map(taskId => {
-        let task = tasksById[taskId]
-
-        console.assert(task != null, `task is null: taskId: ${taskId}`)
-
-        return task
-      })
+      newTaskList.items = taskList.itemIds
+        .filter(taskId => tasksById.hasOwnProperty(taskId)) // a task with this id may be not loaded yet
+        .map(taskId => tasksById[taskId])
 
       return newTaskList
     })
