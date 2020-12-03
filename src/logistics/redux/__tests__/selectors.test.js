@@ -13,7 +13,7 @@ describe('Selectors', () => {
   let date = moment().format('YYYY-MM-DD')
 
   let baseState = {
-    lastmile: {
+    logistics: {
       date,
       entities: {
         tasks: {
@@ -104,7 +104,7 @@ describe('Selectors', () => {
 
     it('should return task lists without some tasks if they are not loaded', () => {
       let baseState = {
-        lastmile: {
+        logistics: {
           date,
           entities: {
             tasks: {

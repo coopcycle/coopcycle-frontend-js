@@ -2,18 +2,18 @@ import _ from "lodash";
 import {createSelector} from "reselect";
 import {mapToColor} from "./taskUtils";
 
-export const selectSelectedDate = state => state.lastmile.date
+export const selectSelectedDate = state => state.logistics.date
 
 export const selectTaskLists = createSelector(
-  state => state.lastmile.entities.taskLists.byUsername,
-  state => state.lastmile.entities.tasks.byId,
+  state => state.logistics.entities.taskLists.byUsername,
+  state => state.logistics.entities.tasks.byId,
   (taskListsByUsername, tasksById) =>
     Object.values(taskListsByUsername).map(taskList => {
       let newTaskList = {...taskList}
       delete newTaskList.itemIds
 
       newTaskList.items = taskList.itemIds
-        .filter(taskId => tasksById.hasOwnProperty(taskId)) // a task with this id may be not loaded yet
+        .filter(taskId => Object.prototype.hasOwnProperty.call(tasksById, taskId)) // a task with this id may be not loaded yet
         .map(taskId => tasksById[taskId])
 
       return newTaskList
@@ -21,7 +21,7 @@ export const selectTaskLists = createSelector(
 )
 
 export const selectAllTasks = createSelector(
-  state => state.lastmile.entities.tasks.byId,
+  state => state.logistics.entities.tasks.byId,
   tasksById => Object.values(tasksById)
 )
 
