@@ -16,10 +16,10 @@ export * from './actions'
 
 import { mapToColor, upsertTasks } from './taskUtils'
 import {
-  taskListKey,
   tasksToIds,
   replaceTasksWithIds,
-  findTaskListEntity,
+  findTaskListByTask,
+  findTaskListByUsername,
   addAssignedTask,
   removeUnassignedTask,
   upsertTaskList,
@@ -30,10 +30,10 @@ export const taskUtils = {
 }
 
 export const taskListUtils = {
-  taskListKey,
   tasksToIds,
   replaceTasksWithIds,
-  findTaskListEntity,
+  findTaskListByTask,
+  findTaskListByUsername,
   addAssignedTask,
   removeUnassignedTask,
   upsertTaskList,

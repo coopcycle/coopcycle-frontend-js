@@ -63,7 +63,7 @@ export function upsertTasks(tasksById, tasks) {
   let newItems = Object.assign({}, tasksById)
 
   for (let task of tasks) {
-    newItems[task["@id"]] = task
+    newItems[task['@id']] = task
   }
 
   return newItems

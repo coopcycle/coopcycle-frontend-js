@@ -1,4 +1,4 @@
-import {createAction} from "redux-actions";
+import {createAction} from 'redux-actions';
 
 export const CREATE_TASK_LIST_REQUEST = 'CREATE_TASK_LIST_REQUEST'
 export const CREATE_TASK_LIST_SUCCESS = 'CREATE_TASK_LIST_SUCCESS'

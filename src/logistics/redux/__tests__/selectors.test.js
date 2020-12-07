@@ -5,9 +5,9 @@ import {
   selectAssignedTasks,
   selectUnassignedTasks,
   selectTasksWithColor,
-} from "../selectors";
+} from '../selectors';
 
-import moment from "../../../moment";
+import moment from '../../../moment';
 
 describe('Selectors', () => {
   let date = moment().format('YYYY-MM-DD')
@@ -39,8 +39,8 @@ describe('Selectors', () => {
           },
         },
         taskLists: {
-          byUsername: {
-            'bot_1': {
+          byId: {
+            '/api/task_lists/1': {
               '@id': '/api/task_lists/1',
               'username': 'bot_1',
               itemIds: [
@@ -48,7 +48,7 @@ describe('Selectors', () => {
                 '/api/tasks/2',
               ]
             },
-            'bot_2': {
+            '/api/task_lists/2': {
               '@id': '/api/task_lists/2',
               'username': 'bot_2',
               itemIds: [
@@ -116,8 +116,8 @@ describe('Selectors', () => {
               },
             },
             taskLists: {
-              byUsername: {
-                'bot_1': {
+              byId: {
+                '/api/task_lists/1': {
                   '@id': '/api/task_lists/1',
                   'username': 'bot_1',
                   itemIds: [
@@ -210,8 +210,8 @@ describe('Selectors', () => {
   describe('selectTasksWithColor', () => {
     it('should return tasks with a color tag', () => {
       expect(selectTasksWithColor(baseState)).toEqual({
-        "/api/tasks/1": "#93c63f",
-        "/api/tasks/2": "#93c63f",
+        '/api/tasks/1': '#93c63f',
+        '/api/tasks/2': '#93c63f',
       })
     })
   })

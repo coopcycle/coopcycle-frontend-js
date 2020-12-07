@@ -1,14 +1,14 @@
-import _ from "lodash";
-import {createSelector} from "reselect";
-import {mapToColor} from "./taskUtils";
+import _ from 'lodash';
+import {createSelector} from 'reselect';
+import {mapToColor} from './taskUtils';
 
 export const selectSelectedDate = state => state.logistics.date
 
 export const selectTaskLists = createSelector(
-  state => state.logistics.entities.taskLists.byUsername,
+  state => state.logistics.entities.taskLists.byId,
   state => state.logistics.entities.tasks.byId,
-  (taskListsByUsername, tasksById) =>
-    Object.values(taskListsByUsername).map(taskList => {
+  (taskListsById, tasksById) =>
+    Object.values(taskListsById).map(taskList => {
       let newTaskList = {...taskList}
       delete newTaskList.itemIds
 
@@ -34,7 +34,7 @@ export const selectUnassignedTasks = createSelector(
   selectAllTasks,
   selectAssignedTasks,
   (allTasks, assignedTasks) =>
-    _.filter(allTasks, task => assignedTasks.findIndex(assignedTask => task["@id"] == assignedTask["@id"]) == -1)
+    _.filter(allTasks, task => assignedTasks.findIndex(assignedTask => task['@id'] == assignedTask['@id']) == -1)
 )
 
 export const selectTasksWithColor = createSelector(

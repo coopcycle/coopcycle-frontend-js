@@ -2,7 +2,7 @@ import {
   CREATE_TASK_LIST_FAILURE,
   CREATE_TASK_LIST_REQUEST,
   CREATE_TASK_LIST_SUCCESS
-} from "./actions";
+} from './actions';
 
 const initialState = {
   taskListsLoading: false,

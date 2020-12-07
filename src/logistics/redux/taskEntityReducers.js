@@ -1,7 +1,7 @@
 import {
   CREATE_TASK_LIST_SUCCESS
-} from "./actions";
-import { upsertTasks } from "./taskUtils"
+} from './actions';
+import { upsertTasks } from './taskUtils'
 
 const initialState = {
   byId: {}
