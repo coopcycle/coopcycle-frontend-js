@@ -9,7 +9,7 @@ export {
   selectAssignedTasks,
   selectUnassignedTasks,
   selectAllTasks,
-  selectTasksWithColor
+  selectTasksWithColor,
 } from './selectors'
 
 export * from './actions'
@@ -23,10 +23,11 @@ import {
   addAssignedTask,
   removeUnassignedTask,
   upsertTaskList,
+  upsertTaskLists,
 } from './taskListUtils'
 
 export const taskUtils = {
-  mapToColor, upsertTasks
+  mapToColor, upsertTasks,
 }
 
 export const taskListUtils = {
@@ -37,4 +38,5 @@ export const taskListUtils = {
   addAssignedTask,
   removeUnassignedTask,
   upsertTaskList,
+  upsertTaskLists,
 }
