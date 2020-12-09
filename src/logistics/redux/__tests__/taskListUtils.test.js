@@ -5,7 +5,7 @@ import {
   findTaskListByTask,
   addAssignedTask,
   removeUnassignedTask,
-  upsertTaskList,
+  addOrReplaceTaskList,
 } from '../taskListUtils.js'
 
 describe('taskListUtils', () => {
@@ -438,7 +438,7 @@ describe('taskListUtils', () => {
     })
   })
 
-  describe('upsertTaskList', () => {
+  describe('addOrReplaceTaskList', () => {
     it('should insert a new task list', () => {
       let taskListsById = {
         '/api/task_lists/1': {
@@ -451,7 +451,7 @@ describe('taskListUtils', () => {
         },
       }
 
-      let result = upsertTaskList(taskListsById, {
+      let result = addOrReplaceTaskList(taskListsById, {
         '@id': '/api/task_lists/2',
         'username': 'bot_2',
         itemIds: [
@@ -501,7 +501,7 @@ describe('taskListUtils', () => {
         },
       }
 
-      let result = upsertTaskList(taskListsById, {
+      let result = addOrReplaceTaskList(taskListsById, {
         '@id': '/api/task_lists/1',
         'username': 'bot_1',
         itemIds: [
@@ -549,7 +549,7 @@ describe('taskListUtils', () => {
         },
       }
 
-      let result = upsertTaskList(taskListsById, {
+      let result = addOrReplaceTaskList(taskListsById, {
         '@id': '/api/task_lists/2',
         'username': 'bot_2',
         itemIds: [

@@ -14,7 +14,7 @@ export {
 
 export * from './actions'
 
-import { mapToColor, upsertTasks } from './taskUtils'
+import { mapToColor, addOrReplaceTasks } from './taskUtils'
 import {
   tasksToIds,
   replaceTasksWithIds,
@@ -22,12 +22,12 @@ import {
   findTaskListByUsername,
   addAssignedTask,
   removeUnassignedTask,
-  upsertTaskList,
-  upsertTaskLists,
+  addOrReplaceTaskList,
+  addOrReplaceTaskLists,
 } from './taskListUtils'
 
 export const taskUtils = {
-  mapToColor, upsertTasks,
+  mapToColor, addOrReplaceTasks,
 }
 
 export const taskListUtils = {
@@ -37,6 +37,6 @@ export const taskListUtils = {
   findTaskListByUsername,
   addAssignedTask,
   removeUnassignedTask,
-  upsertTaskList,
-  upsertTaskLists,
+  addOrReplaceTaskList,
+  addOrReplaceTaskLists,
 }

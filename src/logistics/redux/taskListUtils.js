@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import moment from 'moment';
-import {taskListUtils as utils} from "./index";
 
 export function tasksToIds(tasks) {
   return tasks.map((item) => item['@id'])
@@ -107,7 +106,7 @@ export function removeUnassignedTask(taskListsById, task) {
   return newItems
 }
 
-function upsert(sourceById, taskList, destinationById) {
+function addOrReplace(sourceById, taskList, destinationById) {
   let entityByUsername = findTaskListByUsername(sourceById, taskList['username'])
 
   // there is already a temporary task list for the same user
@@ -119,19 +118,19 @@ function upsert(sourceById, taskList, destinationById) {
   destinationById[taskList['@id']] = taskList
 }
 
-export function upsertTaskList(taskListsById, taskList) {
+export function addOrReplaceTaskList(taskListsById, taskList) {
   let newItems = Object.assign({}, taskListsById)
 
-  upsert(taskListsById, taskList, newItems)
+  addOrReplace(taskListsById, taskList, newItems)
 
   return newItems
 }
 
-export function upsertTaskLists(taskListsById, taskLists) {
+export function addOrReplaceTaskLists(taskListsById, taskLists) {
   let newItems = Object.assign({}, taskListsById)
 
   taskLists.forEach(taskList => {
-    upsert(taskListsById, taskList, newItems)
+    addOrReplace(taskListsById, taskList, newItems)
   })
 
   return newItems

@@ -1,5 +1,5 @@
 import {
-  groupLinkedTasks, upsertTasks,
+  groupLinkedTasks, addOrReplaceTasks,
 } from '../taskUtils.js'
 
 describe('groupLinkedTasks', () => {
@@ -119,7 +119,7 @@ describe('groupLinkedTasks', () => {
 
 })
 
-describe('upsertTasks', () => {
+describe('addOrReplaceTasks', () => {
   it('should update an existing task', () => {
 
     let items = {
@@ -156,7 +156,7 @@ describe('upsertTasks', () => {
       }
     }
 
-    let result = upsertTasks(items, [task])
+    let result = addOrReplaceTasks(items, [task])
 
     expect(result).toEqual(expectedResult)
     expect(result).not.toBe(items)
@@ -201,7 +201,7 @@ describe('upsertTasks', () => {
       }
     }
 
-    let result = upsertTasks(items, [task])
+    let result = addOrReplaceTasks(items, [task])
 
     expect(result).toEqual(expectedResult)
     expect(result).not.toBe(items)
