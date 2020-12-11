@@ -1,6 +1,7 @@
 import _ from 'lodash';
-import {createSelector} from 'reselect';
-import {mapToColor} from './taskUtils';
+import { createSelector } from 'reselect';
+import { mapToColor } from './taskUtils';
+import { assignedTasks } from './taskListUtils';
 
 export const selectSelectedDate = state => state.logistics.date
 
@@ -27,7 +28,7 @@ export const selectAllTasks = createSelector(
 
 export const selectAssignedTasks = createSelector(
   selectTaskLists,
-  taskLists => _.flatMap(taskLists,taskList => taskList.items)
+  taskLists => assignedTasks(taskLists)
 )
 
 export const selectUnassignedTasks = createSelector(

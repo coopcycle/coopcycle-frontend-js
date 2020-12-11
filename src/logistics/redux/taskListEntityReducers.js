@@ -1,7 +1,8 @@
 import {
   CREATE_TASK_LIST_SUCCESS
 } from './actions';
-import { replaceTasksWithIds, addOrReplaceTaskList } from './taskListUtils'
+import { replaceTasksWithIds } from './taskListUtils'
+import { addOrReplaceTaskList } from './taskListEntityUtils'
 
 const initialState = {
   byId: {}
