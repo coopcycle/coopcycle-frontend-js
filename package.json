@@ -1,6 +1,6 @@
 {
   "name": "coopcycle-frontend-js",
-  "version": "1.0.4",
+  "version": "3.0.0-beta.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -13,6 +13,7 @@
     "moment": "^2.29.0",
     "moment-range": "^4.0.2",
     "redux": "^4.0.5",
+    "redux-actions": "^2.6.5",
     "reselect": "^4.0.0"
   },
   "devDependencies": {
